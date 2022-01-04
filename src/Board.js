@@ -29,7 +29,7 @@ import _ from "lodash" // Import the entire lodash library
  **/
 
 
-function Board({ nrows = 5, ncols = 5, chanceLightStartsOn = 0.0 }) {
+function Board({ nrows = 5, ncols = 5, chanceLightStartsOn = 1.0 }) {
   const [board, setBoard] = useState(createBoard());
   const [clickCount, setClickCount] = useState(0);
   // const [board, setBoard] = useState(createWinnableBoard());
@@ -82,7 +82,7 @@ function Board({ nrows = 5, ncols = 5, chanceLightStartsOn = 0.0 }) {
   /** Checks if there are any lit/true cells in the board */
 
   function hasWon() {
-    if (clickCount === 0) return
+    // if (clickCount === 0) return
     for (let x = 0; x < board.length; x++) {
       for (let y = 0; y < board[x].length; y++) {
         if (board[x][y] === true) return
@@ -153,7 +153,7 @@ function Board({ nrows = 5, ncols = 5, chanceLightStartsOn = 0.0 }) {
   const tblBoard = [];
   for (let y = 0; y < nrows; y++) {
     const row = [];
-    for (let x = 0; x < nrows; x++) {
+    for (let x = 0; x < ncols; x++) {
       const coord = `${y}-${x}`;
       row.push(<Cell key={coord}
         coord={coord}
