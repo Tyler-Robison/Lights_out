@@ -123,5 +123,9 @@ exports[`matches snapshot with all lights on 1`] = `
       </tr>
     </tbody>
   </table>
+  <p
+    data-testid="testVictoryPara"
+    id="victoryPara"
+  />
 </DocumentFragment>
 `;
