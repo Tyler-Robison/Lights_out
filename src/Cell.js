@@ -17,9 +17,9 @@ import "./Cell.css";
 // flipCellsAroundMe will be invoked here, but the state
 // it changes resides in GameBoard which has access to all cells
 
-function Cell({ flipCellsAroundMe, isLit=false, coord }) {
+function Cell({ handleClick, isLit=false, coord }) {
   const classes = `Cell ${isLit ? "Cell-lit" : ""}`;
-  return <td data-testid={coord} className={classes} onClick={flipCellsAroundMe} />;
+  return <td data-testid={coord} className={classes} onClick={handleClick} />;
 }
 
 export default Cell;

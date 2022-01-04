@@ -29,10 +29,11 @@ import _ from "lodash" // Import the entire lodash library
  **/
 
 
-function Board({ nrows = 5, ncols = 5, chanceLightStartsOn = 0.2 }) {
+function Board({ nrows = 5, ncols = 5, chanceLightStartsOn = 0.0 }) {
   const [board, setBoard] = useState(createBoard());
+  const [clickCount, setClickCount] = useState(0);
   // const [board, setBoard] = useState(createWinnableBoard());
-  hasWon()
+  
 
   /** create a board nrows high/ncols wide, each cell randomly lit or unlit */
   function createBoard() {
@@ -81,6 +82,7 @@ function Board({ nrows = 5, ncols = 5, chanceLightStartsOn = 0.2 }) {
   /** Checks if there are any lit/true cells in the board */
 
   function hasWon() {
+    if (clickCount === 0) return
     for (let x = 0; x < board.length; x++) {
       for (let y = 0; y < board[x].length; y++) {
         if (board[x][y] === true) return
@@ -91,9 +93,9 @@ function Board({ nrows = 5, ncols = 5, chanceLightStartsOn = 0.2 }) {
 
   function handleVictory() {
     const game = document.querySelector('#game')
-    game.remove()
+    // game.remove()
     const victoryText = document.createElement('p')
-    victoryText.innerText = 'You win!'
+    victoryText.innerText = `You win! Clicked ${clickCount} times`
     victoryText.style.fontSize = '20px'
     victoryText.style.textAlign = 'center'
     document.body.append(victoryText)
@@ -109,6 +111,11 @@ function Board({ nrows = 5, ncols = 5, chanceLightStartsOn = 0.2 }) {
       // true -> false and vice-versa
     }
   };
+
+ function handleClick(coord) {
+  flipCellsAround(coord)
+  setClickCount(clickCount + 1)
+ }
 
   function flipCellsAround(coord) {
 
@@ -151,12 +158,12 @@ function Board({ nrows = 5, ncols = 5, chanceLightStartsOn = 0.2 }) {
       row.push(<Cell key={coord}
         coord={coord}
         isLit={board[y][x]}
-        flipCellsAroundMe={() => flipCellsAround(coord)} />)
+        handleClick={() => handleClick(coord)} />)
     }
     tblBoard.push(<tr>{row}</tr>);
   }
 
-
+  hasWon()
   return (
     <>
       <h1>Lights Out!</h1>
