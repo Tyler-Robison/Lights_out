@@ -1,5 +1,5 @@
 import React from "react";
-import { render, fireEvent } from "@testing-library/react";
+import { render, fireEvent, screen } from "@testing-library/react";
 import Board from './Board'
 
 it("renders without crashing", function () {
@@ -36,28 +36,42 @@ test("that correct cells flip upon click", function () {
 
 // start with unlit board, victory not allowed until clickCount > 0
 // click same cell twice to achieve victory. 
-test("That we can detect win and display victory message", function () {
-    const { getByTestId } = render(<Board chanceLightStartsOn={0.0} />);
-    const topLeftCell = getByTestId('0-0');
+// test("That we can detect win and display victory message", function () {
+//     const { getByTestId } = render(<Board chanceLightStartsOn={0.0} />);
+//     const topLeftCell = getByTestId('0-0');
 
-    // checking class of cell is for troubleshooting purposes only. 
-    expect(topLeftCell).toHaveClass('Cell')
-    fireEvent.click(topLeftCell);
-    expect(topLeftCell).toHaveClass('Cell Cell-lit')
-    fireEvent.click(topLeftCell);
-    expect(topLeftCell).toHaveClass('Cell')
+//     // checking class of cell is for troubleshooting purposes only. 
+//     expect(topLeftCell).toHaveClass('Cell')
+//     fireEvent.click(topLeftCell);
+//     expect(topLeftCell).toHaveClass('Cell Cell-lit')
+//     fireEvent.click(topLeftCell);
+//     expect(topLeftCell).toHaveClass('Cell')
 
-    const victoryPara = getByTestId('testVictoryPara')
-    expect(victoryPara).toHaveTextContent("You win");
-})
+//     const victoryPara = getByTestId('testVictoryPara')
+//     expect(victoryPara).toHaveTextContent("You win");
+// })
 
 test("That we can detect win and display victory message", function () {
     const { getByTestId } = render(<Board nrows={1} ncols={3} chanceLightStartsOn={1.0} />);
-    const middleCell = getByTestId('0-1'); 
- 
+    const middleCell = getByTestId('0-1');
+
     fireEvent.click(middleCell);
 
     const victoryPara = getByTestId('testVictoryPara')
+    console.log('inner text: ', victoryPara.innerText)
+    console.log('text content: ', victoryPara.textContent)
+    // innerText contains expected text, textContent is blank
+    // victoryPara textContent isn't blank in running app
+
     expect(victoryPara).toHaveTextContent("You win");
+    expect(screen.getByText(`You win! Clicked 1 times`)).toBeInTheDocument()
+    // above tests fail if text added via innerText
+
+    // these 3 tests together show that victory para is in document
+    // visible and contains correct text.
+    // expect(victoryPara.innerText).toEqual('You win! Clicked 1 times')
+    expect(victoryPara).toBeInTheDocument();
+    expect(victoryPara).toBeVisible();
+
 })
 

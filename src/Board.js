@@ -95,7 +95,8 @@ function Board({ nrows = 5, ncols = 5, chanceLightStartsOn = 1.0 }) {
     const game = document.querySelector('#game')
     game.remove()
     const victoryText = document.querySelector('#victoryPara')
-    victoryText.innerText = `You win! Clicked ${clickCount} times`
+    // victoryText.innerText = `You win! Clicked ${clickCount} times`
+    victoryText.textContent = `You win! Clicked ${clickCount} times`
     victoryText.style.fontSize = '20px'
     victoryText.style.textAlign = 'center'
     document.body.append(victoryText)
@@ -165,13 +166,13 @@ function Board({ nrows = 5, ncols = 5, chanceLightStartsOn = 1.0 }) {
 
   hasWon()
   return (
-    <>
+    <div>
       <h1>Lights Out!</h1>
       <table data-testid="testGame" id="game" className="GameBoard">
         <tbody>{tblBoard}</tbody>
       </table>
       <p data-testid="testVictoryPara" id="victoryPara"></p>
-    </>
+    </div>
   )
 }
 
